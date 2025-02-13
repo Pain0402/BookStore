@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Book</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/admin_style.css">
+</head>
+<body>
+  <div class="d-flex">
+    <div class="sidebar">
+      <h3 class="text-center">Admin Panel</h3>
+      <a href="#dashboard">Dashboard</a>
+      <a href="manageBook.html">Manage Books</a>
+      <a href="#users">Manage Users</a>
+      <a href="#orders">Manage Orders</a>
+      <a href="#reports">Reports</a>
+      <a href="#settings">Settings</a>
+      <a href="#logout">Logout</a>
+    </div>
+
+    <div class="container mt-5">
+        <h2>Add New Book</h2>
+        <form id="addBookForm">
+            <div class="form-group">
+                <label for="title">Book Title</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input type="text" class="form-control" id="author" name="author" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="stock">Stock Quantity</label>
+                <input type="number" class="form-control" id="stock" name="stock" required>
+            </div>
+            <div class="form-group">
+              <label for="book-cover">Book cover</label>
+              <input class="form-control" id="book-cover" name="book-cover" rows="3" required></input>
+          </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="addBook()">Add Book</button>
+        </form>
+    </div>
+  </div>
+    
+
+  <script src="js/admin_function.js"></script>
+</body>
+</html>
