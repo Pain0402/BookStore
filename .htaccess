@@ -1,0 +1,21 @@
+# Bật chế độ Rewrite Engine
+RewriteEngine On
+
+# Chặn quyền truy cập trực tiếp vào thư mục backend
+#RewriteRule ^backend/ - [F,L]
+
+# Chuyển hướng truy cập từ URL thân thiện -> file PHP tương ứng
+#RewriteRule ^books$ backend/books/get_books.php [L]
+#RewriteRule ^cart$ backend/cart/view_cart.php [L]
+#RewriteRule ^orders$ backend/orders/order_history.php [L]
+
+# Định nghĩa trang mặc định
+DirectoryIndex index.php index.html
+
+# Bật CORS (cho phép frontend gọi API backend)
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+</IfModule>

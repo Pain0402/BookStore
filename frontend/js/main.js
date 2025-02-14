@@ -1,10 +1,10 @@
+// Hàm hiển thị toàn bộ sách
 async function displayBooks() {
   const bookList = document.getElementById("book-list");
 
   try {
     const response = await fetch("http://localhost/BookStore/backend/books/get_books.php", {
       method: "GET",
-      mode: "cors", // Bật chế độ CORS
     });
 
     if (!response.ok) {
@@ -71,6 +71,92 @@ async function searchBooks() {
   }
 }
 
+// Hàm xem chi tiết sách
+async function viewBook(bookId) {
+  console.log(bookId);
+  
+  try {
+    const response = await fetch(`http://localhost/BookStore/backend/books/view_book.php?bookId=${bookId}`);
+    const bookDetails = await response.json();
+
+    console.log(bookDetails);
+
+    // Set the modal content
+    const modalTitle = document.getElementById("bookModalLabel");
+    const modalBody = document.getElementById("bookModalBody");
+
+    modalTitle.innerText = bookDetails[0][0].title;
+    modalBody.innerHTML = `
+      <div class="container my-5">
+          <div class="row">
+              <div class="col-md-4">
+                  <img src="${bookDetails[0][0].book_cover}" class="img-fluid rounded" alt="${bookDetails[0][0].title}">
+              </div>
+              <div class="col-md-8">
+                  <h2 class="mb-3">${bookDetails[0][0].title}</h2>
+                  <h5 class="text-muted">${bookDetails[0][0].author}</h5>
+                  <p class="mt-4">
+                      <strong>Genre:</strong> ${bookDetails[0][0].genre_name} <br>
+                      <strong>Publisher:</strong> Publisher Name <br>
+                      <strong>Publication Date:</strong> January 1, 2022 <br>
+                      <strong>ISBN:</strong> 123-4567891234
+                  </p>
+                  <p class="mt-4">
+                      <strong>Description:</strong> ${bookDetails[0][0].description}
+                  </p>
+                  <p class="fs-4 fw-bold text-danger">${bookDetails[0][0].price}đ</p>
+                  <button class="btn btn-success button-main" onclick="addToCart(${bookId})">Add to Cart</button>
+                  <button class="btn btn-warning button-main">Buy</button>
+              </div>
+          </div>
+      </div>
+    `;
+
+    // Show the modal
+    const bookModal = new bootstrap.Modal(document.getElementById("bookModal"));
+    bookModal.show();
+  } catch (error) {
+    console.error("Error viewing book:", error);
+    alert("Failed to load book details. Please try again.");
+  }
+}
+
+// Hàm lọc sách
+async function filterBooks() {
+  const genres = Array.from(document.querySelectorAll('input[name="genre"]:checked'))
+    .map(checkbox => checkbox.value)
+    .join(',');
+  
+  const price = document.querySelector('input[name="price"]:checked')?.value || 0;
+  const sortOption = document.getElementById('price-sort').value;
+
+  console.log(genres, price, sortOption );
+
+  const apiUrl = `http://localhost:8081/books/filter/price_genre?genre=${genres}&price=${price}&sortOption=${sortOption}`;
+  const bookList = document.getElementById('book-list');
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    bookList.innerHTML = "";
+    data.forEach(book => {
+      const bookDiv = document.createElement('div');
+      bookDiv.innerHTML = `
+        <img class="book_cover" src=${book.book_cover} alt="">
+        <h3 class="title">${book.title}</h3>
+        <p class="price">${book.price}đ</p>
+        <p class="rate">Rating: 5/5⭐</p>
+        <button class="button-view" onclick="viewBook(${book.bookId})">View</button>
+      `;
+      bookList.appendChild(bookDiv);
+    });
+  } catch (error) {
+    console.error("Error filtering books:", error);
+    alert("Failed to filter books. Please try again later.");
+  }
+}
+
 // Hàm kiểm tra trạng thái đăng nhập
 function checkLogin() {
   const userId = localStorage.getItem("userId");
@@ -120,7 +206,6 @@ async function register() {
     alert("An error occurred during registration. Please try again later.");
   }
 }
-
 
 // Hàm đăng nhập người dùng
 async function login() {
@@ -193,56 +278,6 @@ async function resetPassword() {
   }
 }
 
-// Hàm xem chi tiết sách
-async function viewBook(bookId) {
-  console.log(bookId);
-  
-  try {
-    const response = await fetch(`http://localhost/BookStore/backend/books/view_book.php?bookId=${bookId}`);
-    const bookDetails = await response.json();
-
-    console.log(bookDetails);
-
-    // Set the modal content
-    const modalTitle = document.getElementById("bookModalLabel");
-    const modalBody = document.getElementById("bookModalBody");
-
-    modalTitle.innerText = bookDetails[0][0].title;
-    modalBody.innerHTML = `
-      <div class="container my-5">
-          <div class="row">
-              <div class="col-md-4">
-                  <img src="${bookDetails[0][0].book_cover}" class="img-fluid rounded" alt="${bookDetails[0][0].title}">
-              </div>
-              <div class="col-md-8">
-                  <h2 class="mb-3">${bookDetails[0][0].title}</h2>
-                  <h5 class="text-muted">${bookDetails[0][0].author}</h5>
-                  <p class="mt-4">
-                      <strong>Genre:</strong> ${bookDetails[0][0].genre_name} <br>
-                      <strong>Publisher:</strong> Publisher Name <br>
-                      <strong>Publication Date:</strong> January 1, 2022 <br>
-                      <strong>ISBN:</strong> 123-4567891234
-                  </p>
-                  <p class="mt-4">
-                      <strong>Description:</strong> ${bookDetails[0][0].description}
-                  </p>
-                  <p class="fs-4 fw-bold text-danger">${bookDetails[0][0].price}đ</p>
-                  <button class="btn btn-success button-main" onclick="addToCart(${bookId})">Add to Cart</button>
-                  <button class="btn btn-warning button-main">Buy</button>
-              </div>
-          </div>
-      </div>
-    `;
-
-    // Show the modal
-    const bookModal = new bootstrap.Modal(document.getElementById("bookModal"));
-    bookModal.show();
-  } catch (error) {
-    console.error("Error viewing book:", error);
-    alert("Failed to load book details. Please try again.");
-  }
-}
-
 // Hàm thêm sách vào giỏ hàng
 async function addToCart(bookId) {
   const userId = localStorage.getItem("userId");
@@ -267,42 +302,6 @@ async function addToCart(bookId) {
   } catch (error) {
     console.error("Error adding book to cart:", error);
     alert("An error occurred. Please try again later.");
-  }
-}
-
-// Hàm lọc sách
-async function filterBooks() {
-  const genres = Array.from(document.querySelectorAll('input[name="genre"]:checked'))
-    .map(checkbox => checkbox.value)
-    .join(',');
-  
-  const price = document.querySelector('input[name="price"]:checked')?.value || 0;
-  const sortOption = document.getElementById('price-sort').value;
-
-  console.log(genres, price, sortOption );
-
-  const apiUrl = `http://localhost:8081/books/filter/price_genre?genre=${genres}&price=${price}&sortOption=${sortOption}`;
-  const bookList = document.getElementById('book-list');
-
-  try {
-    const response = await fetch(apiUrl);
-    const data = await response.json();
-
-    bookList.innerHTML = "";
-    data.forEach(book => {
-      const bookDiv = document.createElement('div');
-      bookDiv.innerHTML = `
-        <img class="book_cover" src=${book.book_cover} alt="">
-        <h3 class="title">${book.title}</h3>
-        <p class="price">${book.price}đ</p>
-        <p class="rate">Rating: 5/5⭐</p>
-        <button class="button-view" onclick="viewBook(${book.bookId})">View</button>
-      `;
-      bookList.appendChild(bookDiv);
-    });
-  } catch (error) {
-    console.error("Error filtering books:", error);
-    alert("Failed to filter books. Please try again later.");
   }
 }
 
