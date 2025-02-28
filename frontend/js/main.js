@@ -19,19 +19,23 @@ async function displayBooks() {
       console.log("Thông tin sách: ", book);
       
       const bookDiv = document.createElement("div");
+      bookDiv.classList.add("book-item"); // Thêm class để CSS dễ chỉnh sửa
+      bookDiv.setAttribute("onclick", `viewBook(${book.book_id})`); // Thêm sự kiện onclick
+
       bookDiv.innerHTML = `
         <img class="book_cover" src="${book.book_cover}" alt="">
         <h3 class="title">${book.title}</h3>
         <p class="price">${book.price}đ</p>
         <p class="rate">Rating: 5/5⭐</p>
-        <button class="button-view" onclick="viewBook(${book.book_id})">View</button>
       `;
+
       bookList.appendChild(bookDiv);
     });
   } catch (error) {
     console.error("==>Lỗi khi tải danh sách sách:", error);
   }
 }
+
 
 // Chạy hàm hiển thị sách khi tải trang
 window.onload = displayBooks;
@@ -43,33 +47,41 @@ async function searchBooks() {
 
   try {
     const response = await fetch(`http://localhost/BookStore/backend/books/search_book.php?term=${input}`);
+    
+    if (!response.ok) {
+      throw new Error(`==> Lỗi HTTP: ${response.status}`);
+    }
+
     const books = await response.json();
 
-    
-    if (books.length == 0) {
-      alert("No books found with the given title.");
+    if (books.length === 0) {
+      alert("Không tìm thấy sách nào với từ khoá đã nhập.");
       return;
     }
 
-    // Làm rỗng danh sách hiện tại và hiển thị kết quả
+    // Xóa danh sách sách hiện tại và hiển thị kết quả tìm kiếm
     bookList.innerHTML = "";
-    
+
     books.forEach((book) => {
       const resultDiv = document.createElement("div");
+      resultDiv.classList.add("book-item"); // Thêm class để CSS dễ chỉnh sửa
+      resultDiv.setAttribute("onclick", `viewBook(${book.book_id})`); // Bấm vào để xem chi tiết sách
+
       resultDiv.innerHTML = `
         <img class="book_cover" src="${book.book_cover}" alt="">
         <h3 class="title">${book.title}</h3>
         <p class="price">${book.price}đ</p>
         <p class="rate">Rating: 5/5⭐</p>
-        <button class="button-view" onclick="viewBook(${book.bookId})">View</button>
       `;
+
       bookList.appendChild(resultDiv);
     });
   } catch (error) {
-    console.error("Error searching books:", error);
-    alert("An error occurred while searching for books. Please try again.");
+    console.error("Lỗi khi tìm kiếm sách:", error);
+    alert("Có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại.");
   }
 }
+
 
 // Hàm xem chi tiết sách
 async function viewBook(bookId) {
@@ -157,126 +169,7 @@ async function filterBooks() {
   }
 }
 
-// Hàm kiểm tra trạng thái đăng nhập
-function checkLogin() {
-  const userId = localStorage.getItem("userId");
-  if (userId) {
-    document.querySelector("header .nav .nav-login a").textContent = "Giang";
-    document.querySelector("header .nav .nav-admin").classList.add("nav-hide");
-  }
-}
 
-// checkLogin();
-
-// Hàm đăng ký người dùng
-async function register() {
-  const username = document.getElementById("username").value;
-  const email = document.getElementById("email").value;
-  const phoneNumber = document.getElementById("phone_number").value;
-  const passwordUser = document.getElementById("password").value;
-  const confirmPassword = document.getElementById("confirm_password").value;
-
-  try {
-    const response = await fetch("http://localhost:8081/users/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        email,
-        phoneNumber,
-        passwordUser,
-        confirmPassword,
-      }),
-    });
-
-    const result = await response.json();
-
-    if (response.ok) {
-      console.log("Registration successful:", result);
-      alert(result.message);
-      window.location.href = "login.html";
-    } else {
-      console.error("Registration failed:", result.message);
-      alert(`Registration failed: ${result.message}`);
-    }
-  } catch (error) {
-    console.error("Error registering user:", error);
-    alert("An error occurred during registration. Please try again later.");
-  }
-}
-
-// Hàm đăng nhập người dùng
-async function login() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-
-  try {
-    const response = await fetch(`http://localhost:8081/users/login/${username}/${password}`);
-    
-    if (response.ok) {
-      const user = await response.json();
-      console.log("User:", user);
-
-      // Store user data in localStorage
-      localStorage.setItem("username", user.username);
-      localStorage.setItem("userId", user.userId);
-
-      alert(`Welcome, ${user.username}!`);
-      window.location.href = "index.html"; // Redirect to the main page
-    } else {
-      alert("Login failed. Please check your username and password.");
-    }
-  } catch (error) {
-    console.error("Error logging in:", error);
-    alert("An error occurred during login. Please try again later.");
-  }
-}
-
-// Hàm reset mật khẩu
-async function resetPassword() {
-  const email = document.getElementById("email").value;
-  const newPassword = document.getElementById("password").value;
-  const confirmPassword = document.getElementById("confirm_password").value;
-
-  // Check if all fields are filled and passwords match
-  if (!email || !newPassword || !confirmPassword) {
-    alert("Please fill in all required fields.");
-    return;
-  }
-  if (newPassword !== confirmPassword) {
-    alert("Password confirmation does not match.");
-    return;
-  }
-
-  // Send password reset request to the server
-  try {
-    const response = await fetch('http://localhost:8081/users/forgot-password', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        newPassword,
-        confirmPassword
-      })
-    });
-
-    if (response.ok) {
-      const message = await response.text();
-      alert(`Success: ${message}`);
-      window.location.href = "login.html"; // Redirect to the login page
-    } else {
-      const errorMessage = await response.text();
-      alert(`Error: ${errorMessage}`);
-    }
-  } catch (error) {
-    console.error("Error resetting password:", error);
-    alert("An error occurred while connecting to the server. Please try again later.");
-  }
-}
 
 // Hàm thêm sách vào giỏ hàng
 async function addToCart(bookId) {

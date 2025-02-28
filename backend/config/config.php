@@ -3,7 +3,7 @@ $servername = "127.0.0.1";
 $port = "3306"; 
 $username = "hg"; // Thay bằng user MySQL của bạn
 $password = "cmmb@123"; // Nếu có mật khẩu, hãy điền vào đây
-$dbname = "bookstore_db";
+$dbname = "bookstore_database";
 
 // Kết nối MySQL
 $conn = new mysqli($servername, $username, $password, $dbname, $port);

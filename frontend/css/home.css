@@ -1,0 +1,11 @@
+.carousel {
+    max-width: 90%;
+    margin: auto;
+  }
+  
+  .carousel img {
+    border-radius: 10px;
+    max-height: 500px; /* Điều chỉnh kích thước banner */
+    object-fit: cover;
+  }
+  
