@@ -132,7 +132,7 @@ async function filterBooks() {
 
   console.log(genres, price, sortOption );
 
-  const apiUrl = `http://localhost:8081/books/filter/price_genre?genre=${genres}&price=${price}&sortOption=${sortOption}`;
+  const apiUrl = `http://localhost/BookStore/backend/books/filter_book.php?genre=${genres}&price=${price}&sortOption=${sortOption}`;
   const bookList = document.getElementById('book-list');
 
   try {
@@ -213,7 +213,7 @@ async function login() {
   const password = document.getElementById("password").value;
 
   try {
-    const response = await fetch(`http://localhost:8081/users/login/${username}/${password}`);
+    const response = await fetch(`http://localhost/BookStore/backend/users/login.php?username=${username}&password=${password}`);
     
     if (response.ok) {
       const user = await response.json();
