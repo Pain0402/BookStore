@@ -188,6 +188,16 @@ header .nav .nav-item a {
   aspect-ratio: 1;
 }
 
+/* ========== HEADER ========== */
+.book-item {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+.book-item:hover {
+  transform: scale(1.05);
+}
+
+
 /* ========== AUTHENTICATION ========== */
 .registration-container,
 .login-container,
@@ -200,6 +210,10 @@ header .nav .nav-item a {
   border-radius: 5px;
 }
 
+.registration-title,
+.login-title {
+  text-align: center;
+}
 
 .form-label {
   display: block;
