@@ -18,7 +18,7 @@ function checkLogin() {
     const confirmPassword = document.getElementById("confirm_password").value;
   
     try {
-      const response = await fetch("http://localhost:8081/users/register", {
+      const response = await fetch("http://localhost/BookStore/backend/users/register.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,6 +33,7 @@ function checkLogin() {
       });
   
       const result = await response.json();
+      console.log(result);
   
       if (response.ok) {
         console.log("Registration successful:", result);
@@ -49,7 +50,7 @@ function checkLogin() {
   }
   
   // Hàm đăng nhập người dùng
-  async function login() {
+async function login() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
@@ -57,18 +58,13 @@ function checkLogin() {
         const response = await fetch("http://localhost/BookStore/backend/users/login.php", {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }) // Gửi dữ liệu đăng nhập
+            body: JSON.stringify({ username, password }),
+            credentials: "include" // Cho phép gửi cookies phiên
         });
 
         const result = await response.json();
 
         if (response.ok && result.username) {
-            console.log("User:", result);
-
-            // Lưu thông tin vào localStorage
-            localStorage.setItem("username", result.username);
-            localStorage.setItem("userId", result.userId);
-
             alert(`Welcome, ${result.username}!`);
             window.location.href = "index.html"; // Chuyển hướng đến trang chính
         } else {
@@ -79,48 +75,47 @@ function checkLogin() {
         alert("An error occurred during login. Please try again later.");
     }
 }
+
   
   
   // Hàm reset mật khẩu
   async function resetPassword() {
-    const email = document.getElementById("email").value;
-    const newPassword = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirm_password").value;
-  
-    // Check if all fields are filled and passwords match
+    const email = document.getElementById("email").value.trim();
+    const newPassword = document.getElementById("password").value.trim();
+    const confirmPassword = document.getElementById("confirm_password").value.trim();
+
     if (!email || !newPassword || !confirmPassword) {
-      alert("Please fill in all required fields.");
-      return;
+        alert("Please fill in all required fields.");
+        return;
     }
     if (newPassword !== confirmPassword) {
-      alert("Password confirmation does not match.");
-      return;
+        alert("Password confirmation does not match.");
+        return;
     }
-  
-    // Send password reset request to the server
+
     try {
-      const response = await fetch('http://localhost:8081/users/forgot-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email,
-          newPassword,
-          confirmPassword
-        })
-      });
-  
-      if (response.ok) {
-        const message = await response.text();
-        alert(`Success: ${message}`);
-        window.location.href = "login.html"; // Redirect to the login page
-      } else {
-        const errorMessage = await response.text();
-        alert(`Error: ${errorMessage}`);
-      }
+        console.log("Sending request with data:", { email, newPassword });
+
+        const response = await fetch("http://localhost/BookStore/backend/users/resetpassword.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, newPassword, confirmPassword })
+        });
+
+        const responseData = await response.json();
+        console.log("Server response:", responseData);
+
+        if (responseData.error) {
+            alert(`Error: ${responseData.error}`);
+        } else {
+            alert(responseData.message);
+            window.location.href = "login.html";
+        }
     } catch (error) {
-      console.error("Error resetting password:", error);
-      alert("An error occurred while connecting to the server. Please try again later.");
+        console.error("Error resetting password:", error);
+        alert("An error occurred while connecting to the server.");
     }
-  }
+}
+
