@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: application/json");
+// header("Content-Type: application/json");
 include '../config/config.php'; // Kết nối MySQL
 
 if (isset($_GET['term'])) {

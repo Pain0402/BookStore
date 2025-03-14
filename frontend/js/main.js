@@ -3,7 +3,7 @@ async function displayBooks() {
   const bookList = document.getElementById("book-list");
 
   try {
-    const response = await fetch("http://localhost/BookStore/backend/books/get_books.php", {
+    const response = await fetch("http://localhost/BookStore/backend/books/get_book.php", {
       method: "GET",
     });
 

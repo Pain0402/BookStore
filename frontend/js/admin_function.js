@@ -12,7 +12,7 @@ async function addBook() {
     };
 
     try {
-      const response = await fetch('http://localhost:8081/books/add', {
+      const response = await fetch('http://localhost/BookStore/backend/books/add_book.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bookData)
@@ -47,9 +47,7 @@ function showNewUpdate() {
 
 async function DeleteBook(book_id) {
   try {
-    const response = await fetch(`http://localhost:8081/books/delete/${book_id}`, {
-      method: 'DELETE'
-    });
+    const response = await fetch(`http://localhost/BookStore/backend/books/delete_book.php?book_id=${book_id}`);
 
     if (response.ok) {
       alert('Book deleted successfully!');
@@ -67,21 +65,22 @@ async function DeleteBook(book_id) {
 async function EditBook(book_id) {
   console.log(book_id);
   
-  const response = await fetch(`http://localhost:8081/books/${book_id}`);
+  const response = await fetch(`http://localhost/BookStore/backend/books/search_book_id.php?book_id=${book_id}`);
   const book = await response.json();
   console.log(book);
 
   // Điền thông tin sách vào form
-  document.getElementById("title").value = book.title;
-  document.getElementById("author").value = book.author;
-  document.getElementById("price").value = book.price;
-  document.getElementById("stock").value = book.stock;
-  document.getElementById("bookCover").value = book.book_cover;
+  document.getElementById("title").value = book[0].title;
+  document.getElementById("author").value = book[0].author;
+  document.getElementById("price").value = book[0].price;
+  document.getElementById("stock").value = book[0].stock;
+  document.getElementById("bookCover").value = book[0].book_cover;
   
   document.getElementById("updateBookForm").addEventListener("submit", function (event) {
     event.preventDefault();
     
     const bookData = {
+        book_id: book_id,
         title: document.getElementById("title")?.value || book.title,
         author: document.getElementById("author")?.value || book.author,
         price: parseFloat(document.getElementById("price")?.value) || book.price,
@@ -92,8 +91,8 @@ async function EditBook(book_id) {
 
     console.log(bookData);
     
-    fetch(`http://localhost:8081/books/${book_id}`, {
-        method: "PUT",
+    fetch(`http://localhost/BookStore/backend/books/update_book.php`, {
+        method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
@@ -117,7 +116,7 @@ async function EditBook(book_id) {
 async function listBooks() {
   document.getElementById('all-books').classList.add('active-list');
   try {
-    const response = await fetch('http://localhost:8081/books');
+    const response = await fetch('http://localhost/BookStore/backend/books/get_book.php');
     const books = await response.json();
 
     const tableBody = document.getElementById('book-table-body');
@@ -126,14 +125,14 @@ async function listBooks() {
     books.forEach(book => {
       const row = document.createElement('tr');
       row.innerHTML = `
-        <td>${book.bookId}</td>
+        <td>${book.book_id}</td>
         <td>${book.title}</td>
         <td>${book.author}</td>
         <td>${book.price}</td>
         <td>${book.stock}</td>
         <td>
           <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick=EditBook(${book.bookId})>
+          <button type="button" class="btn btn-primary btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick=EditBook(${book.book_id})>
             Edit
           </button>
           <!-- Modal -->
@@ -174,7 +173,7 @@ async function listBooks() {
             </div>
           </div>
         </div>
-        <button class="btn btn-sm btn-danger" onclick=DeleteBook(${book.bookId})>Delete</button>
+        <button class="btn btn-sm btn-danger" onclick=DeleteBook(${book.book_id})>Delete</button>
         </td>
       `;
       tableBody.appendChild(row);

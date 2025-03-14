@@ -1,11 +1,8 @@
 <?php
-  include "../config/config.php";
-
+  include '../config/config.php'; 
   if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $book_id = $_GET['book_id'];
-
     if (!empty($book_id)) {
-        //Kiểm tra id sách có tồn tại không
         $sql = "SELECT * FROM books WHERE book_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $book_id);
@@ -15,20 +12,19 @@
             echo json_encode(["success" => false, "message" => "Book not found"]);
             exit();
         }
-        //Xóa sách
-        $sql = "DELETE FROM books WHERE book_id = ?";
+        $sql = "SELECT * FROM books WHERE book_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $book_id);
-        
-        if ($stmt->execute()) {
-            echo json_encode(["success" => true, "message" => "Book deleted successfully"]);
-        } else {
-            echo json_encode(["success" => false, "message" => "Error deleting book"]);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $books = [];
+        while ($row = $result->fetch_assoc()) {
+            $books[] = $row;
         }
+        echo json_encode($books);
     } else {
         echo json_encode(["success" => false, "message" => "Invalid book ID"]);
     }
-}
+  }
 
 ?>
-
