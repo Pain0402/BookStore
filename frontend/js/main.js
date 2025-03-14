@@ -144,7 +144,7 @@ async function filterBooks() {
 
   console.log(genres, price, sortOption );
 
-  const apiUrl = `http://localhost:8081/books/filter/price_genre?genre=${genres}&price=${price}&sortOption=${sortOption}`;
+  const apiUrl = `http://localhost/BookStore/backend/books/filter_book.php?genre=${genres}&price=${price}&sortOption=${sortOption}`;
   const bookList = document.getElementById('book-list');
 
   try {
