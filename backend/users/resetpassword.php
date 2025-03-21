@@ -1,5 +1,4 @@
 <?php
-header("Content-Type: application/json");
 include '../config/config.php'; // Kết nối MySQL
 
 // Kiểm tra phương thức HTTP (chỉ chấp nhận POST)

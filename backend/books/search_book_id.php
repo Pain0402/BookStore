@@ -12,11 +12,6 @@
             echo json_encode(["success" => false, "message" => "Book not found"]);
             exit();
         }
-        $sql = "SELECT * FROM books WHERE book_id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $book_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
         $books = [];
         while ($row = $result->fetch_assoc()) {
             $books[] = $row;

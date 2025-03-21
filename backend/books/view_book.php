@@ -1,6 +1,5 @@
 <?php
-header("Content-Type: application/json");
-include '../config/config.php'; // Kết nối MySQL
+include '../config/config.php'; 
 
 if (isset($_GET['bookId'])) {
     $bookId = $_GET['bookId'];
@@ -25,7 +24,7 @@ if (isset($_GET['bookId'])) {
     }
 
     if (!empty($bookDetails)) {
-        echo json_encode([$bookDetails]); // Định dạng giống API cũ
+        echo json_encode([$bookDetails]); 
     } else {
         echo json_encode(["error" => "Book not found"]);
     }

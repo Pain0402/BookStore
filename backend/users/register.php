@@ -1,5 +1,4 @@
 <?php
-header("Content-Type: application/json");
 include '../config/config.php'; // Kết nối MySQL
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {

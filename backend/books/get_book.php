@@ -1,12 +1,4 @@
 <?php
-    header("Content-Type: application/json");
-
-    // Nếu request là OPTIONS (Preflight Request), chỉ trả về OK
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-        http_response_code(200);
-        exit();
-    }
-
     include '../config/config.php';
 
     $sql = "SELECT * FROM books";

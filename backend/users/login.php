@@ -1,19 +1,19 @@
 <?php
 session_start();
-header("Content-Type: application/json");
+// header("Content-Type: application/json");
 
-// Cấu hình CORS
-header("Access-Control-Allow-Origin: http://127.0.0.1:5500");
-header("Access-Control-Allow-Credentials: true");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+// // Cấu hình CORS
+// header("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+// header("Access-Control-Allow-Credentials: true");
+// header("Access-Control-Allow-Methods: POST, OPTIONS");
+// header("Access-Control-Allow-Headers: Content-Type");
+
+include '../config/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
     http_response_code(200);
     exit;
 }
-
-include '../config/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $data = json_decode(file_get_contents("php://input"), true);
