@@ -74,9 +74,7 @@ async function login() {
         console.error("Error logging in:", error);
         alert("An error occurred during login. Please try again later.");
     }
-}
-
-  
+} 
   
   // Hàm reset mật khẩu
   async function resetPassword() {
@@ -117,5 +115,25 @@ async function login() {
         console.error("Error resetting password:", error);
         alert("An error occurred while connecting to the server.");
     }
+}
+
+//Lấy userID từ session
+async function getUserId() {
+  try {
+      const response = await fetch("http://localhost/BookStore/backend/users/checklogin.php", {
+          credentials: "include", // Gửi session cookie
+      });
+
+      if (response.ok) {
+          const data = await response.json();
+          return data.user_id; // Server trả về { userId: 123 }
+      } else {
+          console.error("Failed to get user ID");
+          return null;
+      }
+  } catch (error) {
+      console.error("Error fetching user ID:", error);
+      return null;
+  }
 }
 
