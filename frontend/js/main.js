@@ -36,7 +36,6 @@ async function displayBooks() {
   }
 }
 
-
 // Chạy hàm hiển thị sách khi tải trang
 window.onload = displayBooks;
 
@@ -81,6 +80,12 @@ async function searchBooks() {
     alert("Có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại.");
   }
 }
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+      searchBooks();
+  }
+});
 
 
 // Hàm xem chi tiết sách
@@ -167,4 +172,15 @@ async function filterBooks() {
     console.error("Error filtering books:", error);
     alert("Failed to filter books. Please try again later.");
   }
+}
+
+function showFilter() {
+  const filter = document.querySelector('.container .filter');
+  console.log(filter.style.display);
+  if (filter.style.display === 'none' || filter.style.display === '') {
+    filter.style.display = 'block';
+  } else {
+    filter.style.display = 'none';
+  }
+  
 }
