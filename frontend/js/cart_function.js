@@ -3,7 +3,7 @@ async function loadCartItems() {
     const userId = await getUserId(); // Lấy userId từ server
   
     if (!userId) {
-        alert("Bạn chưa đăng nhập!");
+        alert("You are not logged in!");
         return;
     }
   
@@ -31,9 +31,9 @@ async function loadCartItems() {
                                   <h5 class="card-title">${item.title}</h5>
                                   <p class="card-text">${item.price}đ</p>
                                   <div class="input-group mb-3" style="max-width: 120px;">
-                                      <button class="btn btn-outline-secondary btn-minus" type="button">-</button>
-                                      <input type="text" class="form-control text-center" value="${item.quantity}">
-                                      <button class="btn btn-outline-secondary btn-plus" type="button">+</button>
+                                    <button class="btn btn-outline-secondary btn-minus" type="button" onclick="decreaseQuantity(${item.cart_id})">-</button>
+                                    <input id="quantity-${item.cart_id}" type="text" class="form-control text-center" value="${item.quantity}" readonly>
+                                    <button class="btn btn-outline-secondary btn-plus" type="button" onclick="increaseQuantity(${item.cart_id})">+</button>
                                   </div>
                                   <button class="btn btn-danger" onclick="removeCartItem(${item.cart_id})">Remove</button>
                               </div>
@@ -103,5 +103,48 @@ async function loadCartItems() {
         alert("An error occurred. Please try again later.");
     }
 }
+
+//Giảm số sách trong cart
+function decreaseQuantity(cartId) {
+    // Lấy ô input tương ứng với cartId
+    const inputEl = document.getElementById(`quantity-${cartId}`);
+    let currentQuantity = parseInt(inputEl.value, 10);
+    if (currentQuantity > 1) { // Giảm chỉ khi số lượng > 1
+      updateCartQuantity(cartId, currentQuantity - 1);
+    } else {
+      alert("Số lượng không thể giảm dưới 1.");
+    }
+  }
+  
+  //Tăng số sách trong cart
+  function increaseQuantity(cartId) {
+    const inputEl = document.getElementById(`quantity-${cartId}`);
+    let currentQuantity = parseInt(inputEl.value, 10);
+    updateCartQuantity(cartId, currentQuantity + 1);
+  }
+
+  //Cập nhật số sách trong cart
+  async function updateCartQuantity(cartId, newQuantity) {
+    try {
+      // Gửi request PUT đến API
+      const response = await fetch("http://localhost/BookStore/backend/cart/update_cart.php", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cart_id: cartId, quantity: newQuantity })
+      });
+  
+      const result = await response.json();
+      if (response.ok) {
+        // Cập nhật hiển thị trên giao diện
+        document.getElementById(`quantity-${cartId}`).value = newQuantity;
+      } else {
+        alert(result.error || "Failed to update cart quantity. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating cart quantity:", error);
+      alert("An error occurred. Please try again later.");
+    }
+  }
+  
 
   
