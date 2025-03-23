@@ -1,6 +1,10 @@
 <?php
+<<<<<<< HEAD
 // Định dạng nội dung phản hồi là JSON
 header("Content-Type: application/json");
+=======
+include '../config/config.php'; 
+>>>>>>> 76e0b1738220f289b6ae34231416645955fcc30b
 
 // Kết nối đến cơ sở dữ liệu MySQL
 include '../config/config.php';
@@ -32,7 +36,7 @@ if (isset($_GET['bookId'])) {
 
     // Kiểm tra xem có dữ liệu sách nào không
     if (!empty($bookDetails)) {
-        echo json_encode([$bookDetails]); // Định dạng giống API cũ
+        echo json_encode([$bookDetails]); 
     } else {
         echo json_encode(["error" => "Book not found"]); // Không tìm thấy sách
     }

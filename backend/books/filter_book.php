@@ -1,5 +1,4 @@
 <?php 
-  header("Content-Type: application/json");
   include '../config/config.php';
 
   if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["genre"]) && isset($_GET["price"]) && isset($_GET["sortOption"])) {

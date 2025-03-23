@@ -49,7 +49,7 @@ function checkLogin() {
     }
   }
   
-  // Hàm đăng nhập người dùng
+// Hàm đăng nhập người dùng
 async function login() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
