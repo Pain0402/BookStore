@@ -1,7 +1,41 @@
-// Hàm hiển thị toàn bộ sách
-async function displayBooks() {
+function createPagination(page = 1, booksPerPage = 12, booksData, func) {
   const bookList = document.getElementById("book-list");
+  const pagination = document.getElementById("pagination");
+  bookList.innerHTML = "";
+  pagination.innerHTML = "";
 
+  const totalPages = Math.ceil(booksData.length / booksPerPage);
+  const start = (page - 1) * booksPerPage;
+  const end = start + booksPerPage;
+  const booksToShow = booksData.slice(start, end);
+
+  booksToShow.forEach((book) => {
+    const bookDiv = document.createElement("div");
+    bookDiv.classList.add("book-item");
+    bookDiv.setAttribute("onclick", `viewBook(${book.book_id})`);
+
+    bookDiv.innerHTML = `
+      <img class="book_cover" src="${book.book_cover}" alt="">
+      <h3 class="title">${book.title}</h3>
+      <p class="price">${book.price}đ</p>
+      <p class="rate">Rating: 5/5⭐</p>
+    `;
+
+    bookList.appendChild(bookDiv);
+  });
+
+  for(let i = 1; i <= totalPages; i++){
+    const button = document.createElement("button");
+    button.textContent = i;
+    button.classList.add("page-btn");
+    if (i === page) button.classList.add("active");
+    button.addEventListener("click", () => func(i));
+    pagination.appendChild(button);
+  }
+}
+
+// Hàm hiển thị toàn bộ sách
+async function displayBooks(page = 1, booksPerPage = 12) {
   try {
     const response = await fetch("http://localhost/BookStore/backend/books/get_book.php", {
       method: "GET",
@@ -11,38 +45,21 @@ async function displayBooks() {
       throw new Error(`==>Lỗi HTTP: ${response.status}`);
     }
 
-    const data = await response.json();
-
-    bookList.innerHTML = "";
-
-    data.forEach((book) => {
-      console.log("Thông tin sách: ", book);
-      
-      const bookDiv = document.createElement("div");
-      bookDiv.classList.add("book-item"); // Thêm class để CSS dễ chỉnh sửa
-      bookDiv.setAttribute("onclick", `viewBook(${book.book_id})`); // Thêm sự kiện onclick
-
-      bookDiv.innerHTML = `
-        <img class="book_cover" src="${book.book_cover}" alt="">
-        <h3 class="title">${book.title}</h3>
-        <p class="price">${book.price}đ</p>
-        <p class="rate">Rating: 5/5⭐</p>
-      `;
-
-      bookList.appendChild(bookDiv);
-    });
+    const booksData = await response.json();
+    
+    createPagination(page, booksPerPage, booksData, displayBooks);
+    
   } catch (error) {
     console.error("==>Lỗi khi tải danh sách sách:", error);
   }
 }
 
-// Chạy hàm hiển thị sách khi tải trang
-window.onload = displayBooks;
+// Gọi hàm khi trang tải
+displayBooks();
 
 // Hàm tìm kiếm sách
-async function searchBooks() {
+async function searchBooks(page = 1, booksPerPage = 12) {
   const input = document.getElementById("search-bar").value;
-  const bookList = document.getElementById("book-list");
 
   try {
     const response = await fetch(`http://localhost/BookStore/backend/books/search_book.php?term=${input}`);
@@ -58,23 +75,9 @@ async function searchBooks() {
       return;
     }
 
-    // Xóa danh sách sách hiện tại và hiển thị kết quả tìm kiếm
-    bookList.innerHTML = "";
-
-    books.forEach((book) => {
-      const resultDiv = document.createElement("div");
-      resultDiv.classList.add("book-item"); // Thêm class để CSS dễ chỉnh sửa
-      resultDiv.setAttribute("onclick", `viewBook(${book.book_id})`); // Bấm vào để xem chi tiết sách
-
-      resultDiv.innerHTML = `
-        <img class="book_cover" src="${book.book_cover}" alt="">
-        <h3 class="title">${book.title}</h3>
-        <p class="price">${book.price}đ</p>
-        <p class="rate">Rating: 5/5⭐</p>
-      `;
-
-      bookList.appendChild(resultDiv);
-    });
+    createPagination(page, booksPerPage, books, searchBooks);
+    
+   
   } catch (error) {
     console.error("Lỗi khi tìm kiếm sách:", error);
     alert("Có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại.");
@@ -139,7 +142,7 @@ async function viewBook(bookId) {
 }
 
 // Hàm lọc sách
-async function filterBooks() {
+async function filterBooks(page = 1, booksPerPage = 4) {
   const genres = Array.from(document.querySelectorAll('input[name="genre"]:checked'))
     .map(checkbox => checkbox.value)
     .join(',');
@@ -148,29 +151,21 @@ async function filterBooks() {
   const sortOption = document.getElementById('price-sort').value;
 
   console.log(genres, price, sortOption );
-
-  const apiUrl = `http://localhost/BookStore/backend/books/filter_book.php?genre=${genres}&price=${price}&sortOption=${sortOption}`;
-  const bookList = document.getElementById('book-list');
-
   try {
-    const response = await fetch(apiUrl);
-    const data = await response.json();
-
-    bookList.innerHTML = "";
-    data.forEach(book => {
-      const bookDiv = document.createElement('div');
-      bookDiv.innerHTML = `
-        <img class="book_cover" src=${book.book_cover} alt="">
-        <h3 class="title">${book.title}</h3>
-        <p class="price">${book.price}đ</p>
-        <p class="rate">Rating: 5/5⭐</p>
-        <button class="button-view" onclick="viewBook(${book.bookId})">View</button>
-      `;
-      bookList.appendChild(bookDiv);
+    const response = await fetch(`http://localhost/BookStore/backend/books/filter_book.php?genre=${genres}&price=${price}&sortOption=${sortOption}`, {
+      method: "GET",
     });
+
+    if (!response.ok) {
+      throw new Error(`==>Lỗi HTTP: ${response.status}`);
+    }
+
+    const booksData = await response.json();
+    
+    createPagination(page, booksPerPage, booksData, filterBooks);
+    
   } catch (error) {
-    console.error("Error filtering books:", error);
-    alert("Failed to filter books. Please try again later.");
+    console.error("==>Lỗi khi tải danh sách sách:", error);
   }
 }
 
@@ -185,62 +180,18 @@ function showFilter() {
   
 }
 
-let listImg = document.querySelectorAll(".container-slide img");
+function slide(){
+  let listImg = document.querySelectorAll(".container-slide img");
 
-let next = document.querySelector(".container-slide .next");
+  let next = document.querySelector(".container-slide .next");
 
-let prev = document.querySelector(".container-slide  .prev");
+  let prev = document.querySelector(".container-slide  .prev");
 
-let containerImg = document.querySelector(".container-slide .container-slide-img");
+  let containerImg = document.querySelector(".container-slide .container-slide-img");
 
-console.log(listImg);
-console.log(next);
-console.log(prev);
-console.log(containerImg);
+  let currentImg = 1;
 
-
-let currentImg = 1;
-
-let timeout;
-function slide1(){
-    function NEXT() {
-        listImg[currentImg].classList.remove("active");
-        listImg[currentImg].classList.remove("nextAnimation");
-        listImg[currentImg].classList.remove("prevAnimation");
-        currentImg++;
-        listImg[currentImg].classList.add("active");
-        listImg[currentImg].classList.add("nextAnimation");
-        console.log(currentImg);
-        if(currentImg == listImg.length - 1){
-            next.removeEventListener("click", NEXT);
-        }
-    
-        prev.addEventListener("click", PREV);
-        
-    }
-    
-    function PREV() {
-        listImg[currentImg].classList.remove("active");
-        listImg[currentImg].classList.remove("prevAnimation");
-        listImg[currentImg].classList.remove("nextAnimation");
-        currentImg--;
-        listImg[currentImg].classList.add("active");
-        listImg[currentImg].classList.add("prevAnimation");
-        console.log(currentImg);
-    
-        if(currentImg == 0){
-            prev.removeEventListener("click", PREV);
-        }
-    
-        next.addEventListener("click", NEXT);
-    
-    }
-    
-    next.addEventListener("click", NEXT);
-    prev.addEventListener("click", PREV);
-}
-
-function slide2(){
+  let timeout;
     console.log(window.innerWidth * 0.8);
     let currentWidth = window.innerWidth * 0.8;
     function updateImg(){
@@ -273,6 +224,5 @@ function slide2(){
 
 }
 
-// slide1();
-slide2();
+slide();
 
