@@ -1,103 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Online Bookstore Home</title>
-    <link rel="shortcut icon" type="image/png" href="./images/book_1750124.png"/>
-    <!-- Link Bootstrap v5 -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <!-- Link fontawesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/home.css" />
-    
-  </head>
-  <body>
-    <div>
-      <img src="./images/banner.jpg" alt="">
-    </div>
-    <!-- Header -->
-    <header>
-      <div class="logo"><a href="index.html"><img src="./images/book_1750124.png" alt="">Book Store</a></div>
-      <div class="box-input">
-        <input type="text" placeholder="Search for books..." id="search-bar">
-        <button onclick="searchBooks()"><i class="fa-solid fa-magnifying-glass"></i></button>
-      </div>
-      
-     
-      <ul class="nav d-flex justify-content-center">
-        <li class="nav-item">
-          <i class="fa-solid fa-house"></i>
-          <a href="index.html">Home</a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online Bookstore Home</title>
+  <link rel="shortcut icon" type="image/png" href="./images/book_1750124.png" />
+  <!-- Link Bootstrap v5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <!-- Link fontawesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/home.css" />
+
+</head>
+
+<body>
+  <!-- Banner -->
+  <div class="banner">
+    <div class="banner-left">Call: (+84) 123456789</div>
+    <div class="banner-mid">Summer Sale Discount <b style="color: rgb(83, 83, 255); ">50% Off</b></div>
+    <div class="banner-right">
+      <ul class="banner-list">
+        <li>
+          <select name="" id="">
+            <option value="USD">USD</option>
+            <option value="DONG">DONG</option>
+          </select>
         </li>
-        <li class="nav-item">
-          <i class="fa-solid fa-cart-shopping"></i>
-          <a href="cart.html" onclick="loadCartItems()" >Cart</a>
-        </li class="nav-item">
-        <li class="nav-item nav-login">
-          <i class="fa-solid fa-user"></i>
-          <a href="login.html">Login</a>
-        </li>
-        <li class="nav-item nav-admin">
-          <i class="fa-solid fa-user-tie"></i>
-          <a href="admin.html">Admin</a>
+        <li>
+          <select name="" id="">
+            <option value="ENGLISH">ENGLISH</option>
+            <option value="TIENG_VIET">VIETNAMESE</option>
+          </select>
         </li>
       </ul>
-    </header>
+    </div>
+  </div>
 
-    <!-- Quảng cáo -->
-    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="images/lsw.png" class="d-block w-100" alt="Ưu đãi 1">
+  <!-- Header -->
+  <header class="header">
+
+    <!-- Logo, Name, Search input -->
+    <div class="logo"><a href="index.html"><img src="./images/book_1750124.png" alt="">Book Store</a></div>
+    <div class="box-input">
+      <input type="text" placeholder="Search for books..." id="search-bar">
+      <button onclick="searchBooks()"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button onclick="showFilter()" style="margin-left: 5px; border-radius: 4px;"><i
+          class="fa-solid fa-filter"></i></button>
+    </div>
+
+    <!-- Navigation -->
+    <ul class="nav d-flex justify-content-center">
+      <li class="nav-item">
+        <i class="fa-solid fa-house"></i>
+        <a href="index.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <a href="cart.html" onclick="loadCartItems()">Cart</a>
+      </li class="nav-item">
+      <li class="nav-item nav-login">
+        <i class="fa-solid fa-user"></i>
+        <a href="login.html">Login</a>
+      </li>
+      <li class="nav-item nav-admin">
+        <i class="fa-solid fa-user-tie"></i>
+        <a href="admin.html">Admin</a>
+      </li>
+    </ul>
+  </header>
+
+  <!-- Quảng cáo -->
+  <!-- <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="images/lsw.png" class="d-block w-100" alt="Ưu đãi 1">
+      </div>
+      <div class="carousel-item">
+        <img src="images/aot.png" class="d-block w-100" alt="Ưu đãi 2">
+      </div>
+      <div class="carousel-item">
+        <img src="images/naruto.png" class="d-block w-100" alt="Ưu đãi 3">
+      </div>
+    </div>
+    
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    </button>
+  </div> -->
+  <div class="container-slide">
+    <div class="container-slide-img">
+      
+        <!-- <img src="images/slides/wallhaven-lmv7zq.jpg" class="img active" alt="">
+        <img src="images/slides/wallhaven-rrwq7m.jpg" class="img " alt="">
+        <img src="images/slides/wallhaven-wqgr9x.png" class="img " alt="">
+        <img src="images/slides/wallhaven-yxrzw7.jpg" class="img " alt="">
+        <img src="images/slides/Yen-binh_-10-1920x1097.jpg" class="img " alt="">
+        <img src="images/slides/Yen-binh_-3-1920x975.jpg" class="img " alt="">
+        <img src="images/slides/Yen-binh_-5.jpg" class="img " alt=""> -->
+        <!-- <img src="images/slides/aot.png" class="img " alt="">
+        <img src="images/slides/lsw.png" class="img " alt="">
+        <img src="images/slides/naruto.png" class="img " alt=""> -->
+        <img src="images/slides/6898670.jpg" class="img " alt="">
+        <img src="images/slides/10881534.jpg" class="img " alt="">
+    </div>
+    <button class="btn prev"><i class="fa-solid fa-angles-left"></i></button>
+    <button class="btn next"><i class="fa-solid fa-angles-right"></i></button>
+  </div>
+
+
+  <div class="best-seller">
+    <div class="time-sell"></div>
+    <div class="books-sell" id="books-sell">
+      
+    </div>
+  </div>
+
+  
+  <!-- Bộ lọc và hiển thị sách -->
+  <div class="container d-flex justify-content-center">
+    <div class="filter">
+      <h2>Books Filter</h2>
+      <form id="filterForm">
+        <!-- Bộ lọc theo thể loại -->
+        <label for="genre"><b>Genre</b></label>
+        <div name="genre-filter" id="genre-filter">
+          <input type="checkbox" name="genre" value="Literature"> Literature<br>
+          <input type="checkbox" name="genre" value="Manga"> Manga<br>
+          <input type="checkbox" name="genre" value="Life Skills"> Life Skills<br>
+          <input type="checkbox" name="genre" value="Foreign Language"> Foreign Language<br>
+          <input type="checkbox" name="genre" value="Psychology"> Psychology<br>
+          <input type="checkbox" name="genre" value="Science"> Science<br>
+        </div>
+
+        <!-- Bộ lọc theo giá -->
+        <label for="price"><b>Price</b></label>
+        <div name="price-filter" id="price-filter">
+          <input type="radio" name="price" value="1"> 0 - 80.000đ<br>
+          <input type="radio" name="price" value="2"> 80.000đ - 110.000đ<br>
+          <input type="radio" name="price" value="3"> 110.000đ - above<br>
+        </div>
+
+        <!-- Sắp xếp theo giá -->
+        <label><b>Sort</b></label>
+        <select id="price-sort">
+          <option value="1"> Sort by price descending</option>
+          <option value="2"> Sort by price ascending</option>
+        </select>
+
+        <!-- Nút gửi -->
+        <div class="d-flex justify-content-end">
+          <button class="button-main" type="button" onclick="filterBooks()">Apply</button>
+        </div>
+      </form>
+    </div>
+    <section id="book-list">
+
+    </section>
+  </div>
+
+  <!-- Chi tiết sách -->
+  <div id="book-details" class="book-details">
+    <!-- Bootstrap Modal -->
+    <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="bookModalLabel">Book Title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="carousel-item">
-            <img src="images/aot.png" class="d-block w-100" alt="Ưu đãi 2">
-          </div>
-          <div class="carousel-item">
-            <img src="images/naruto.png" class="d-block w-100" alt="Ưu đãi 3">
+          <div class="modal-body" id="bookModalBody">
+            <!-- Book details will be dynamically inserted here -->
           </div>
         </div>
-        <!-- Nút điều hướng trái/phải -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        </button>
       </div>
-      
+    </div>
 
-      <!-- Chi tiết sách -->
-      <div id="book-details" class="book-details">
-          <!-- Bootstrap Modal -->
-          <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="bookModalLabel">Book Title</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="bookModalBody">
-                  <!-- Book details will be dynamically inserted here -->
-                </div>
-                <!-- <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div> -->
-              </div>
-            </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-column">
+          <h2> <img src="./images/book_1750124.png" alt="" style="width: 50px;height: auto;">BOOKSTORE</h2>
+          <p>Provide the best services with top quality.</p>
+        </div>
+        <div class="footer-column">
+          <h3>Useful Links</h3>
+          <p><a href="#">Home</a></p>
+          <p><a href="#">About Us</a></p>
+          <p><a href="#">Blog</a></p>
+          <p><a href="#">Contact</a></p>
+        </div>
+        <div class="footer-column">
+          <h3>Follow us</h3>
+          <div class="social-icons">
+            <a href="#" id="facebook"><i class="fa-brands fa-square-facebook"></i></a>
+            <a href="#" id="tiktok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" id="instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" id="linkedin"><i class="fa-brands fa-linkedin"></i></a>
           </div>
-  
+        </div>
       </div>
+      <div class="footer-bottom">&copy; 2025 BookStore. All rights reserved.</div>
+    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="scripts/main.js"></script>
-  </body>
+    <!-- Link Javascript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script src="js/main.js"></script>
+    <script src="js/cart_function.js"></script>
+</body>
+
 </html>

@@ -184,3 +184,95 @@ function showFilter() {
   }
   
 }
+
+let listImg = document.querySelectorAll(".container-slide img");
+
+let next = document.querySelector(".container-slide .next");
+
+let prev = document.querySelector(".container-slide  .prev");
+
+let containerImg = document.querySelector(".container-slide .container-slide-img");
+
+console.log(listImg);
+console.log(next);
+console.log(prev);
+console.log(containerImg);
+
+
+let currentImg = 1;
+
+let timeout;
+function slide1(){
+    function NEXT() {
+        listImg[currentImg].classList.remove("active");
+        listImg[currentImg].classList.remove("nextAnimation");
+        listImg[currentImg].classList.remove("prevAnimation");
+        currentImg++;
+        listImg[currentImg].classList.add("active");
+        listImg[currentImg].classList.add("nextAnimation");
+        console.log(currentImg);
+        if(currentImg == listImg.length - 1){
+            next.removeEventListener("click", NEXT);
+        }
+    
+        prev.addEventListener("click", PREV);
+        
+    }
+    
+    function PREV() {
+        listImg[currentImg].classList.remove("active");
+        listImg[currentImg].classList.remove("prevAnimation");
+        listImg[currentImg].classList.remove("nextAnimation");
+        currentImg--;
+        listImg[currentImg].classList.add("active");
+        listImg[currentImg].classList.add("prevAnimation");
+        console.log(currentImg);
+    
+        if(currentImg == 0){
+            prev.removeEventListener("click", PREV);
+        }
+    
+        next.addEventListener("click", NEXT);
+    
+    }
+    
+    next.addEventListener("click", NEXT);
+    prev.addEventListener("click", PREV);
+}
+
+function slide2(){
+    console.log(window.innerWidth * 0.8);
+    let currentWidth = window.innerWidth * 0.8;
+    function updateImg(){
+        if(currentImg < 1){
+            currentImg = listImg.length;
+        }
+        else if(currentImg > listImg.length) {
+            currentImg = 1;
+        }
+        // containerImg.style.transform = `translateX(-${(currentImg - 1) * currentWidth}px)`;    
+        containerImg.style.transform = `translateX(-${(currentImg - 1) * 900}px)`;
+        timeout =  setTimeout(() => {
+            currentImg++;
+            updateImg();
+        }, 3000)
+    }
+
+    next.addEventListener("click", ()=> {
+        console.log("next");
+        currentImg++;
+        clearTimeout(timeout);
+        updateImg();
+    }) 
+    prev.addEventListener("click", ()=> {
+        console.log("prev");
+        currentImg--;
+        clearTimeout(timeout);
+        updateImg();
+    }) 
+
+}
+
+// slide1();
+slide2();
+
