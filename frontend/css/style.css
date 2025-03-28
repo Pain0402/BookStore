@@ -327,7 +327,7 @@ header .nav .nav-item a {
   text-align: center;
   margin-bottom: 0;
   margin-top: 20px;
-  position: absolute;
+  position: relative;
   bottom: 0;
   left: 0;
 }

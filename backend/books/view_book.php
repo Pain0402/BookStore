@@ -1,11 +1,4 @@
 <?php
-<<<<<<< HEAD
-// Định dạng nội dung phản hồi là JSON
-header("Content-Type: application/json");
-=======
-include '../config/config.php'; 
->>>>>>> 76e0b1738220f289b6ae34231416645955fcc30b
-
 // Kết nối đến cơ sở dữ liệu MySQL
 include '../config/config.php';
 

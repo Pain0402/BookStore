@@ -54,7 +54,7 @@ async function searchBooks() {
     const books = await response.json();
 
     if (books.length === 0) {
-      alert("Không tìm thấy sách nào với từ khoá đã nhập.");
+      alert("No books were found matching the entered keyword.");
       return;
     }
 
@@ -77,7 +77,7 @@ async function searchBooks() {
     });
   } catch (error) {
     console.error("Lỗi khi tìm kiếm sách:", error);
-    alert("Có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại.");
+    alert("No books were found matching the entered keyword.");
   }
 }
 
@@ -158,14 +158,17 @@ async function filterBooks() {
 
     bookList.innerHTML = "";
     data.forEach(book => {
-      const bookDiv = document.createElement('div');
+      const bookDiv = document.createElement("div");
+      bookDiv.classList.add("book-item");
+      bookDiv.setAttribute("onclick", `viewBook(${book.book_id})`); // Thêm sự kiện onclick
+
       bookDiv.innerHTML = `
-        <img class="book_cover" src=${book.book_cover} alt="">
+        <img class="book_cover" src="${book.book_cover}" alt="">
         <h3 class="title">${book.title}</h3>
         <p class="price">${book.price}đ</p>
         <p class="rate">Rating: 5/5⭐</p>
-        <button class="button-view" onclick="viewBook(${book.bookId})">View</button>
       `;
+
       bookList.appendChild(bookDiv);
     });
   } catch (error) {
