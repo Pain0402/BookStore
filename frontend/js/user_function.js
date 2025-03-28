@@ -137,3 +137,14 @@ async function getUserId() {
   }
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("http://localhost/BookStore/backend/users/getuser.php") // API lấy thông tin user
+      .then(response => response.json())
+      .then(data => {
+          let loginBtn = document.getElementById("login-btn");
+          if (data.username) {
+              loginBtn.textContent = data.username; // Hiển thị tên user
+          }
+      })
+      .catch(error => console.error("Lỗi khi lấy thông tin user:", error));
+});
