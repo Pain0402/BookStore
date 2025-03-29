@@ -33,7 +33,7 @@ body {
 }
 
 .banner .banner-right {
-  width: 15%;
+  width: 20%;
 }
 
 
@@ -210,8 +210,7 @@ header .nav .nav-item a {
   flex-wrap: wrap;
   justify-content: center;
 }
-
-#book-list div, #cart-items div {
+ #book-list div, #cart-items div {
   border: 1px solid #ddd;
   margin: 10px;
   padding: 15px;

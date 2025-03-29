@@ -198,4 +198,92 @@
   left: 5px;
 }
 
+.box {
+  width: 100%;
+  height: 400px;
+  padding: 10px;
+  /* background-image: url('../images/6874251.jpg'); */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+
+.best-seller {
+  width: 100%;
+  height: 400px;
+  padding: 10px;
+  background-image: url('../images/6874251.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.best-seller .time-sell{
+  display: flex;
+  align-items: normal;
+  background-color: white;
+  width: 66%;
+  height: 60px;
+  margin: 0 auto;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.best-seller .time-sell .time-sell-text{
+  margin: 0 10px;
+}
+
+.best-seller .time-sell .time-sell-countdown .time{ 
+  font-size: 20px;
+  background-color: black;
+  border-radius: 5px;
+  color: white;
+  padding: 3px;
+}
+
+.best-seller .books-sell {
+  display: flex;
+  margin: 0 auto;
+  padding: 16px 100px;
+  width: 80%;
+  justify-content: center;
+}
+
+
+.best-seller .books-sell div {
+  border: 1px solid #ddd;
+  margin: 10px;
+  padding: 5px;
+  background-color: white;
+  width: calc(25% - 40px);
+  border-radius: 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.best-seller .books-sell div .title {
+  font-size: 15px;
+  font-weight: 600;
+  width: 100%;
+  height: 10%;
+  margin-top: 8px;
+}
+
+.best-seller .books-sell .price {
+  margin-bottom: 0;
+  color: red;
+  font-weight: 700;
+}
+
+.best-seller .books-sell .book_cover {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  aspect-ratio: 1;
+}
+
+
   

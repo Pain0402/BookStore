@@ -192,8 +192,6 @@ function slide(){
   let currentImg = 1;
 
   let timeout;
-    console.log(window.innerWidth * 0.8);
-    let currentWidth = window.innerWidth * 0.8;
     function updateImg(){
         if(currentImg < 1){
             currentImg = listImg.length;
@@ -201,7 +199,6 @@ function slide(){
         else if(currentImg > listImg.length) {
             currentImg = 1;
         }
-        // containerImg.style.transform = `translateX(-${(currentImg - 1) * currentWidth}px)`;    
         containerImg.style.transform = `translateX(-${(currentImg - 1) * 900}px)`;
         timeout =  setTimeout(() => {
             currentImg++;
@@ -225,4 +222,79 @@ function slide(){
 }
 
 slide();
+setTimeout(() => {
+  currentImg++;
+  updateImg();
+}, 3000)
+
+
+async function displaySell() {
+  const bestSell = document.getElementById("books-sell");
+  console.log(bestSell);
+  
+  bestSell.innerHTML = "";
+  try {
+    const response = await fetch("http://localhost/BookStore/backend/books/get_book.php", {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`==>Lỗi HTTP: ${response.status}`);
+    }
+
+    const books = await response.json();
+    for(let i = 1; i <= 5; i++){
+      const bookDiv = document.createElement("div");
+      bookDiv.classList.add("book-item");
+      bookDiv.setAttribute("onclick", `viewBook(${books[i].book_id})`);
+
+      bookDiv.innerHTML = `
+        <img class="book_cover" src="${books[i].book_cover}" alt="">
+        <h3 class="title">${books[i].title}</h3>
+        <p class="price">${books[i].price}đ</p>
+        <p class="rate">Rating: 5/5⭐</p>
+      `;
+
+      bestSell.appendChild(bookDiv);
+    }
+  } catch (error) {
+    console.error("==>Lỗi khi tải danh sách sách:", error);
+  }
+}
+
+displaySell();
+
+
+function startCountdown(duration) {
+  let endTime = new Date().getTime() + duration;
+  
+  function updateCountdown() {
+      let now = new Date().getTime();
+      let distance = endTime - now;
+      
+      if (distance < 0) {
+          document.getElementById("countdown").innerHTML = "Flash Sale Đã Kết Thúc!";
+          document.querySelector(".time-sell-h").innerHTML = "00";
+          document.querySelector(".time-sell-m").innerHTML = "00";
+          document.querySelector(".time-sell-s").innerHTML = "00";
+          clearInterval(interval);
+          return;
+      }
+      
+      let hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      let minutes = Math.floor((distance / (1000 * 60)) % 60);
+      let seconds = Math.floor((distance / 1000) % 60);
+      
+      document.querySelector(".time-sell-h").innerHTML = hours.toString().padStart(2, '0');
+      document.querySelector(".time-sell-m").innerHTML = minutes.toString().padStart(2, '0');
+      document.querySelector(".time-sell-s").innerHTML = seconds.toString().padStart(2, '0');
+  }
+  
+  updateCountdown();
+  let interval = setInterval(updateCountdown, 1000);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  startCountdown(2 * 60 * 60 * 1000); // Đếm ngược 2 giờ
+});
 
