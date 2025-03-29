@@ -66,7 +66,7 @@ async function login() {
 
         if (response.ok && result.username) {
             alert(`Welcome, ${result.username}!`);
-            window.location.href = "index.html"; // Chuyển hướng đến trang chính
+            window.location.href = result.redirect; // Chuyển hướng đến trang chính hoặc quản lý sách
         } else {
             alert(result.error || "Login failed. Please check your username and password.");
         }
@@ -126,7 +126,7 @@ async function getUserId() {
 
       if (response.ok) {
           const data = await response.json();
-          return data.user_id; // Server trả về { userId: 123 }
+          return data.user_id; // Server trả về
       } else {
           console.error("Failed to get user ID");
           return null;
@@ -137,3 +137,14 @@ async function getUserId() {
   }
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("http://localhost/BookStore/backend/users/getuser.php") // API lấy thông tin user
+      .then(response => response.json())
+      .then(data => {
+          let loginBtn = document.getElementById("login-btn");
+          if (data.username) {
+              loginBtn.textContent = data.username; // Hiển thị tên user
+          }
+      })
+      .catch(error => console.error("Lỗi khi lấy thông tin user:", error));
+});

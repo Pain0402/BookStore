@@ -7,7 +7,7 @@
 
 body {
   /* font-family: Arial, sans-serif; */
-  font-family: 'Times New Roman', Times, serif;
+  font-family: Arial, sans-serif;
   background-color: #f0f0f0;
 }
 
@@ -255,6 +255,7 @@ header .nav .nav-item a {
 
 
 /* ========== AUTHENTICATION ========== */
+/* LOGIN & REGISTER*/
 .registration-container,
 .login-container,
 .reset-password-container {
@@ -296,7 +297,37 @@ header .nav .nav-item a {
 }
 
 .form-button:hover {
-  background-color: #0056b3;
+  background-color: #007bff;
+}
+
+.switch-to-login,
+.switch-to-register,
+.switch-to- {
+  text-align: center;
+}
+
+.login-link,
+.register-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-link:hover,
+.register-link:hover {
+  text-decoration: underline;
+}
+
+.reset-password-title {
+  text-align: center;
+  margin: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+.forgot-password {
+  margin: 15px;
+  text-align: center;
 }
 
 

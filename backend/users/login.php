@@ -25,11 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = $data['password'];
 
     // Truy vấn kiểm tra user trong database
-    $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+    $sql = "SELECT user_id, username, role FROM users WHERE username = ? AND password = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
-
     $result = $stmt->get_result();
     $user = $result->fetch_assoc(); // Lấy thông tin user nếu có
 
@@ -38,15 +37,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION["user_id"] = $user["user_id"];
         $_SESSION["username"] = $user["username"];
 
+        // Xác định trang cần chuyển hướng
+        $redirectPage = ($user["role"] === "admin") ? "manageBook.html" : "index.html";
+
         echo json_encode([
             "message" => "Đăng nhập thành công",
             "username" => $user["username"],
-            "userId" => $user["user_id"]
+            "userId" => $user["user_id"],
+            "role" => $user["role"],
+            "redirect" => $redirectPage
         ]);
     } else {
         // Nếu sai username hoặc password
         echo json_encode(["error" => "Sai username hoặc password"]);
     }
+    
 
     $stmt->close();
 } else {

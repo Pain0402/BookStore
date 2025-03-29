@@ -1,7 +1,5 @@
 <?php
 header("Content-Type: application/json"); // Thiết lập header để phản hồi dữ liệu dưới dạng JSON
-header("Access-Control-Allow-Methods: DELETE"); // Chỉ chấp nhận phương thức DELETE
-
 require_once "../config/config.php"; // Kết nối đến database
 
 // Kiểm tra nếu phương thức không phải DELETE thì trả về lỗi 405 (Method Not Allowed)

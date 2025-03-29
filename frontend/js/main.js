@@ -71,7 +71,7 @@ async function searchBooks(page = 1, booksPerPage = 12) {
     const books = await response.json();
 
     if (books.length === 0) {
-      alert("Không tìm thấy sách nào với từ khoá đã nhập.");
+      alert("No books were found matching the entered keyword.");
       return;
     }
 
@@ -80,7 +80,7 @@ async function searchBooks(page = 1, booksPerPage = 12) {
    
   } catch (error) {
     console.error("Lỗi khi tìm kiếm sách:", error);
-    alert("Có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại.");
+    alert("No books were found matching the entered keyword.");
   }
 }
 
