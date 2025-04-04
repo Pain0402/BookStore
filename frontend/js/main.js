@@ -219,13 +219,14 @@ function slide(){
         updateImg();
     }) 
 
+    setTimeout(() => {
+      currentImg++;
+      updateImg();
+    }, 3000)
 }
 
 slide();
-setTimeout(() => {
-  currentImg++;
-  updateImg();
-}, 3000)
+
 
 
 async function displaySell() {
@@ -263,7 +264,6 @@ async function displaySell() {
 }
 
 displaySell();
-
 
 function startCountdown(duration) {
   let endTime = new Date().getTime() + duration;

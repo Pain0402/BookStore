@@ -200,19 +200,69 @@
 
 .box {
   width: 100%;
-  height: 400px;
+  height: auto;
   padding: 10px;
-  /* background-image: url('../images/6874251.jpg'); */
-  background-size: cover;
+  margin: 25px 0;
+  /* background-size: cover;
   background-position: center;
-  position: relative;
+  position: relative; */
+}
+
+.box .box-text {
+  display: flex;
+  align-items: normal;
+  background-color: white;
+  width: 66%;
+  height: 60px;
+  margin: 0 auto;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.box .box-content {
+  display: flex;
+  margin: 0 auto;
+  padding: 16px 100px;
+  width: 80%;
+  justify-content: center;
+}
+
+.box .box-content .box-item{
+  border: 1px solid #ddd;
+  margin: 10px;
+  padding: 5px;
+  background-color: white;
+  width: calc(25% - 40px); 
+  border-radius: 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.box .box-content .box-item .title {
+  font-size: 15px;
+  font-weight: 600;
+  width: 100%;
+  height: 10%;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.box .box-content .box-item .book_cover {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  aspect-ratio: 1;
 }
 
 
+
 .best-seller {
-  width: 100%;
+  /* width: 100%;
   height: 400px;
-  padding: 10px;
+  padding: 10px; */
   background-image: url('../images/6874251.jpg');
   background-size: cover;
   background-position: center;
@@ -283,6 +333,32 @@
   height: auto;
   object-fit: contain;
   aspect-ratio: 1;
+}
+
+.top-book {
+  background-color: white;
+}
+
+
+.top-book .top-book-img {
+  width: 40%;
+  height: auto;
+  margin: 0 10px;
+}
+
+.top-book .top-book-img img {
+  width: 100%;
+  height: auto;
+
+}
+
+.top-book .top-book-text{
+  width: 60%;
+
+}
+
+.top-book .top-book-text p{
+  text-align: justify;
 }
 
 
