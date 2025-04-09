@@ -56,10 +56,6 @@ body {
   box-shadow: none;
 }  
 
-
-
-     
-
 /* ========== HEADER ========== */
 header {
   display: flex;
@@ -243,7 +239,6 @@ header .nav .nav-item a {
   aspect-ratio: 1;
 }
 
-/* ========== HEADER ========== */
 .book-item {
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
@@ -349,8 +344,8 @@ header .nav .nav-item a {
 }
 
 
-/* ========== FOOTER ========== */
 
+/* ========== FOOTER ========== */
 .footer {
   width: 100%;
   background-color: #111;
@@ -402,7 +397,7 @@ header .nav .nav-item a {
   color: #888;
 }
 
-
+/* ========== PAGINATION ========== */
 #pagination {
   width: 100%;
   margin-top: 0;

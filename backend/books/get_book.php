@@ -1,8 +1,6 @@
 <?php
-    include '../config/config.php';
+    include '../config/config.php';// Kết nối đến cơ sở dữ liệu
 
-    // $sql = "SELECT * FROM books b
-    //         JOIN reviews r ON b.book_id = r.book_id";
     $sql = "SELECT * FROM books";
     $result = $conn->query($sql);
 

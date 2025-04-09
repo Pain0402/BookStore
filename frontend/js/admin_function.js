@@ -2,6 +2,7 @@ async function addBook() {
   document.getElementById("addBookForm").addEventListener("submit", async function(event) {
     event.preventDefault();
 
+    // Lấy dữ liệu từ form
     const bookData = {
         title: document.getElementById("title").value,
         author: document.getElementById("author").value,
@@ -30,29 +31,18 @@ async function addBook() {
   });
 }
 
-function showAllBooks() {
-  document.getElementById('all-books').classList.add('active-list');
-  document.getElementById('history-books').classList.remove('active-list');
-  document.getElementById('navbar-brand').classList.add('nav-font-bg');
-  document.getElementById('nav-link').classList.remove('nav-font-bg');
-}
-
-function showNewUpdate() {
-  document.getElementById('history-books').classList.add('active-list');
-  document.getElementById('all-books').classList.remove('active-list');
-  document.getElementById('nav-link').classList.add('nav-font-bg');
-  document.getElementById('navbar-brand').classList.remove('nav-font-bg');
-  listBook_history();
-}
-
 async function DeleteBook(book_id) {
+  const confirmDelete = confirm("Are you sure you want to delete this book?");
+  if (!confirmDelete) {
+    return;
+  }
+
   try {
     const response = await fetch(`http://localhost/BookStore/backend/books/delete_book.php?book_id=${book_id}`);
 
     if (response.ok) {
       alert('Book deleted successfully!');
-      location.reload();
-      window.onload = listBooks;
+      location.reload(); // Reload lại để cập nhật danh sách
     } else {
       alert('Failed to delete book. Please try again.');
     }
@@ -63,8 +53,6 @@ async function DeleteBook(book_id) {
 }
 
 async function EditBook(book_id) {
-  console.log(book_id);
-  
   const response = await fetch(`http://localhost/BookStore/backend/books/search_book_id.php?book_id=${book_id}`);
   const book = await response.json();
   console.log(book);
@@ -175,33 +163,6 @@ async function listBooks() {
         </div>
         <button class="btn btn-sm btn-danger" onclick=DeleteBook(${book.book_id})>Delete</button>
         </td>
-      `;
-      tableBody.appendChild(row);
-    });
-  } catch (error) {
-    console.error('Error fetching books:', error);
-  }
-}
-
-async function listBook_history(){
-  document.getElementById('all-books-history').classList.add('active-list');
-  try {
-    const response = await fetch('http://localhost:8081/book_history');
-    const books = await response.json();
-
-    const tableBody = document.getElementById('book-history-table-body');
-    tableBody.innerHTML = ''; // Xóa nội dung cũ, nếu có
-    
-    books.forEach(book_history => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${book_history.bookId}</td>
-        <td>${book_history.title}</td>
-        <td>${book_history.author}</td>
-        <td>${book_history.price}</td>
-        <td>${book_history.stock}</td>
-        <td>${book_history.actionType}</td>
-        <td>${book_history.actionDate}</td>
       `;
       tableBody.appendChild(row);
     });

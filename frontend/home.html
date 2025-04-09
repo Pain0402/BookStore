@@ -48,8 +48,8 @@
     <!-- Logo, Name, Search input -->
     <div class="logo"><a href="index.html"><img src="./images/book_1750124.png" alt="">Book Store</a></div>
     <div class="box-input">
-      <input type="text" placeholder="Search for books..." id="search-bar">
-      <button onclick="searchBooks()"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <input type="text" placeholder="Search for books..." id="search-bar" onclick="gotoIndexandSearch()">
+      <button onclick="gotoIndexandSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
       <button onclick="showFilter()" style="margin-left: 5px; border-radius: 4px;"><i
           class="fa-solid fa-filter"></i></button>
     </div>
@@ -100,7 +100,7 @@
 
   <div class="box category">
     <div class="category-title box-text">
-      <span style="margin-right: 5px;"><i style="font-size: 25px; color: #4141ff;" class="fa-solid fa-icons"></i></span>
+      <span style="margin-right: 5px;"><i style="font-size: 25px; color: #4141ff; font-weight: 1000;" class="fa-solid fa-icons"></i></span>
       <h4>Category</h4>
     </div>
     <div class="book-category box-content">
@@ -133,7 +133,7 @@
 
   <div class="box top-book">
     <div class="top-book-title box-text">
-      <span style="margin-right: 5px;"><i style="font-size: 25px; color: #f51c1c;" class="fa-solid fa-fire"></i></span>
+      <span style="margin-right: 5px;"><i style="font-size: 25px; color: #f51c1c; font-weight: 1000;" class="fa-solid fa-fire"></i></span>
       <h4>Top 1 Book</h4>
     </div>
     <div class="box-content top-book-content">
@@ -196,6 +196,7 @@
     <script src="js/main.js"></script>
     <script src="js/cart_function.js"></script>
     <script src="js/user_function.js"></script>
+    <script src="js/book_function.js"></script>
 </body>
 
 </html>

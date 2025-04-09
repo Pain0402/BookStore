@@ -14,12 +14,13 @@
       $price = floatval($_GET["price"]);
       $sortOption = $_GET["sortOption"];
 
-      // Xử lý genres thành mảng
+      // Xử lý genres thành mảng 
       $genreArray = explode(",", $genres);
       $genreCondition = "";
-      if (!empty($genreArray[0])) {
-          $genrePlaceholders = implode("','", $genreArray);
-          $genreCondition = " AND g.genre_name IN ('$genrePlaceholders')";
+      // Xử lý điều kiện thể loại
+      if (!empty($genreArray[0])) {// Nếu có ít nhất một thể loại được chọn
+          $genrePlaceholders = implode("','", $genreArray);// Chuyến từ ["Action", "Romance", "Comedy"] → "Action','Romance','Comedy"
+          $genreCondition = " AND g.genre_name IN ('$genrePlaceholders')";// Chuyển đổi thành điều kiện IN cho SQL
       }
 
       // Xử lý điều kiện giá
@@ -30,17 +31,18 @@
       } else if ($price == 3) {
         $priceCondition = " AND price >= 110000";
       } else {
-          $priceCondition = "";
+          $priceCondition = "";//Không lọc theo giá
       }
 
-      // Xử lý sắp xếp
+      // Xử lý sắp xếp(1: tăng dần, 2: giảm dần)
       $sortQuery = $sortOption > 1 ? "ORDER BY price ASC" : "ORDER BY price DESC";
 
       // Truy vấn SQL
       $sql = "SELECT b.book_id, b.title, b.price, b.book_cover, g.genre_name
               FROM books b JOIN book_genres bg ON b.book_id = bg.book_id
               JOIN genres g ON bg.genre_id = g.genre_id 
-              WHERE 1 $genreCondition $priceCondition $sortQuery";
+              WHERE 1 $genreCondition $priceCondition 
+              $sortQuery";
 
       $result = $conn->query($sql);
       $books = [];

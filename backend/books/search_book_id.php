@@ -1,5 +1,6 @@
 <?php
-  include '../config/config.php'; 
+  include '../config/config.php'; // Kết nối đến cơ sở dữ liệu
+  
   if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $book_id = $_GET['book_id'];
     if (!empty($book_id)) {
