@@ -9,72 +9,88 @@ function checkLogin() {
   
   // checkLogin();
   
-  // Hàm đăng ký người dùng
-  async function register() {
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
-    const phoneNumber = document.getElementById("phone_number").value;
-    const passwordUser = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirm_password").value;
-  
-    try {
-      const response = await fetch("http://localhost/BookStore/backend/users/register.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          email,
-          phoneNumber,
-          passwordUser,
-          confirmPassword,
-        }),
-      });
-  
-      const result = await response.json();
-      console.log(result);
-  
-      if (response.ok) {
-        console.log("Registration successful:", result);
-        alert(result.message);
-        window.location.href = "login.html";
-      } else {
-        console.error("Registration failed:", result.message);
-        alert(`Registration failed: ${result.message}`);
-      }
-    } catch (error) {
-      console.error("Error registering user:", error);
-      alert("An error occurred during registration. Please try again later.");
+// Hàm đăng ký người dùng
+async function register() {
+  // Lấy dữ liệu người dùng nhập từ các ô input
+  const username = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
+  const phoneNumber = document.getElementById("phone_number").value;
+  const passwordUser = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirm_password").value;
+
+  try {
+    // Gửi yêu cầu đăng ký đến API backend qua phương thức POST
+    const response = await fetch("http://localhost/BookStore/backend/users/register.php", {
+      method: "POST", // Phương thức HTTP POST
+      headers: {
+        "Content-Type": "application/json", // Gửi dữ liệu ở định dạng JSON
+      },
+      body: JSON.stringify({
+        // Chuyển dữ liệu người dùng nhập thành chuỗi JSON
+        username,
+        email,
+        phoneNumber,
+        passwordUser,
+        confirmPassword,
+      }),
+    });
+
+    // Chuyển kết quả phản hồi thành đối tượng JavaScript
+    const result = await response.json();
+    console.log(result); // In kết quả ra console để kiểm tra
+
+    // Nếu phản hồi HTTP là thành công 
+    if (response.ok) {
+      console.log("Registration successful:", result);
+      alert(result.message); // Hiển thị thông báo từ server
+      window.location.href = "login.html"; // Chuyển hướng sang trang đăng nhập
+    } else {
+      // Nếu đăng ký thất bại, in và hiển thị thông báo lỗi
+      console.error("Registration failed:", result.message);
+      alert(`Registration failed: ${result.message}`);
     }
+  } catch (error) {
+    // Nếu có lỗi khi gửi request hoặc xử lý dữ liệu
+    console.error("Error registering user:", error);
+    alert("An error occurred during registration. Please try again later.");
   }
+}
+
   
 // Hàm đăng nhập người dùng
 async function login() {
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+  // Lấy giá trị username và password từ form nhập
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-    try {
-        const response = await fetch("http://localhost/BookStore/backend/users/login.php", {
-            method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
-            credentials: "include" // Cho phép gửi cookies phiên
-        });
+  try {
+      // Gửi yêu cầu đăng nhập tới API bằng phương thức POST
+      const response = await fetch("http://localhost/BookStore/backend/users/login.php", {
+          method: 'POST',
+          headers: { "Content-Type": "application/json" }, // Gửi dữ liệu dưới dạng JSON
+          body: JSON.stringify({ username, password }),     // Chuyển object JS thành JSON string
+          credentials: "include" // Cho phép gửi cookies phiên (session cookie)
+      });
 
-        const result = await response.json();
+      // Chuyển kết quả từ server trả về thành object JavaScript
+      const result = await response.json();
 
-        if (response.ok && result.username) {
-            alert(`Welcome, ${result.username}!`);
-            window.location.href = result.redirect; // Chuyển hướng đến trang chính hoặc quản lý sách
-        } else {
-            alert(result.error || "Login failed. Please check your username and password.");
-        }
-    } catch (error) {
-        console.error("Error logging in:", error);
-        alert("An error occurred during login. Please try again later.");
-    }
-} 
+      // Nếu đăng nhập thành công và có tên người dùng trả về
+      if (response.ok && result.username) {
+          alert(`Welcome, ${result.username}!`);
+          // Chuyển hướng tới trang chính (index.html) hoặc trang quản lý sách (nếu là admin)
+          window.location.href = result.redirect;
+      } else {
+          // Thông báo lỗi nếu đăng nhập thất bại
+          alert(result.error || "Login failed. Please check your username and password.");
+      }
+  } catch (error) {
+      // Nếu xảy ra lỗi trong quá trình fetch hoặc xử lý
+      console.error("Error logging in:", error);
+      alert("An error occurred during login. Please try again later.");
+  }
+}
+
   
   // Hàm reset mật khẩu
   async function resetPassword() {

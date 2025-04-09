@@ -53,31 +53,38 @@ async function loadCartItems() {
     }
   }
 
-  //Thêm vào giỏ hàng
-  async function addToCart(bookId) {
-    try {
-      const response = await fetch("http://localhost/BookStore/backend/cart/add_to_cart.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          book_id: bookId,
-          quantity: 1
-        })
-      });
-  
-      const result = await response.json();
-      if (response.ok) {
-        alert("Book has been added to the cart.");
-      } else {
-        alert(result.error || "Failed to add book to the cart. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error adding book to cart:", error);
-      alert("An error occurred. Please try again later.");
+  // Hàm thêm sách vào giỏ hàng
+async function addToCart(bookId) {
+  try {
+    // Gửi yêu cầu POST đến API thêm vào giỏ hàng
+    const response = await fetch("http://localhost/BookStore/backend/cart/add_to_cart.php", {
+      method: "POST", // Phương thức HTTP POST
+      headers: {
+        "Content-Type": "application/json" // Gửi dữ liệu ở định dạng JSON
+      },
+      body: JSON.stringify({
+        book_id: bookId, // ID của sách được thêm
+        quantity: 1       // Mặc định thêm 1 quyển
+      })
+    });
+
+    // Chuyển phản hồi từ server thành đối tượng JSON
+    const result = await response.json();
+
+    // Kiểm tra nếu yêu cầu thành công 
+    if (response.ok) {
+      alert("Book has been added to the cart."); // Thông báo thêm thành công
+    } else {
+      // Nếu có lỗi từ server, hiển thị thông báo lỗi
+      alert(result.error || "Failed to add book to the cart. Please try again.");
     }
+  } catch (error) {
+    // Bắt lỗi nếu có sự cố khi gửi request
+    console.error("Error adding book to cart:", error);
+    alert("An error occurred. Please try again later."); // Thông báo lỗi chung
   }
+}
+
   
    //Xóa khỏi giỏ hàng
    async function removeCartItem(cartId) {
@@ -112,7 +119,7 @@ function decreaseQuantity(cartId) {
     if (currentQuantity > 1) { // Giảm chỉ khi số lượng > 1
       updateCartQuantity(cartId, currentQuantity - 1);
     } else {
-      alert("Số lượng không thể giảm dưới 1.");
+      alert("The quantity cannot be reduced below 1.");
     }
   }
   

@@ -23,21 +23,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Kiểm tra mật khẩu xác nhận có khớp không
     if ($password !== $confirmPassword) {
         http_response_code(400);
-        echo json_encode(["message" => "Mật khẩu xác nhận không khớp"]);
+        echo json_encode(["message" => "Confirmation password does not match"]);
         exit;
     }
 
     // Kiểm tra xem username hoặc email đã tồn tại chưa trong database
-    $checkQuery = "SELECT * FROM users WHERE username = ? OR email = ?";
-    $stmt = $conn->prepare($checkQuery);
+    $sql = "SELECT * FROM users WHERE username = ? OR email = ?";
+    $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $username, $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // Nếu username hoặc email đã tồn tại, trả về lỗi
+        // Nếu username hoặc email đã tồn tại, trả về thông báo
         http_response_code(400);
-        echo json_encode(["message" => "Username hoặc Email đã tồn tại"]);
+        echo json_encode(["message" => "Username or Email already exists"]);
         exit;
     }
 
