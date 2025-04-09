@@ -2,12 +2,6 @@
 session_start(); // Bắt đầu session để lưu thông tin user khi đăng nhập
 header("Content-Type: application/json"); // Trả về dữ liệu JSON
 
-// Xử lý yêu cầu OPTIONS (cho CORS)
-if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
-    http_response_code(200);
-    exit;
-}
-
 include '../config/config.php'; // Kết nối database
 
 // Kiểm tra nếu request là POST (đăng nhập)
