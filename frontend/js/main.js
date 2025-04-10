@@ -3,7 +3,6 @@ function slide(){
   // Lấy tất cả các hình ảnh trong slide
   let listImg = document.querySelectorAll(".container-slide img");
 
-  // Lấy nút "next" và "prev" để điều khiển chuyển hình ảnh
   let next = document.querySelector(".container-slide .next");
   let prev = document.querySelector(".container-slide .prev");
 
@@ -11,17 +10,13 @@ function slide(){
   let containerImg = document.querySelector(".container-slide .container-slide-img");
 
   let currentImg = 1;
-
-  // Khai báo biến timeout để điều khiển thời gian chuyển hình ảnh tự động
   let timeout;
 
   // Hàm cập nhật hình ảnh khi chuyển sang ảnh tiếp theo hoặc quay lại
   function updateImg(){
-    // Nếu hình ảnh hiện tại nhỏ hơn 1, đặt về ảnh cuối cùng
     if(currentImg < 1){
         currentImg = listImg.length;
     }
-    // Nếu hình ảnh hiện tại lớn hơn số lượng ảnh, đặt về ảnh đầu tiên
     else if(currentImg > listImg.length) {
         currentImg = 1;
     }
@@ -114,39 +109,41 @@ async function displaySell() {
 // Gọi hàm để hiển thị danh sách sách bán chạy khi trang được tải
 displaySell();
 
-// CONUNTDOWN
+// COUNTDOWN
 function startCountdown(duration) {
   // Tính thời điểm kết thúc đếm ngược (thời gian hiện tại cộng thêm duration)
   let endTime = new Date().getTime() + duration;
   
   // Hàm cập nhật đồng hồ đếm ngược
   function updateCountdown() {
-      // Lấy thời gian hiện tại
       let now = new Date().getTime();
-      // Tính khoảng cách thời gian còn lại
+
       let distance = endTime - now;
+      console.log("distance: " + distance);
+      
       
       // Nếu thời gian đếm ngược đã kết thúc
       if (distance < 0) {
-          // Hiển thị thông báo Flash Sale đã kết thúc
-          document.getElementById("countdown").innerHTML = "Flash Sale Đã Kết Thúc!";
-          document.querySelector(".time-sell-h").innerHTML = "00"; // Cập nhật giờ
-          document.querySelector(".time-sell-m").innerHTML = "00"; // Cập nhật phút
-          document.querySelector(".time-sell-s").innerHTML = "00"; // Cập nhật giây
-          // Dừng hàm đếm ngược
+          document.getElementById("end-sale").innerHTML = "Flash Sale Đã Kết Thúc!";
+          document.querySelector(".time-sell-h").innerHTML = "00"; 
+          document.querySelector(".time-sell-m").innerHTML = "00"; 
+          document.querySelector(".time-sell-s").innerHTML = "00"; 
+
           clearInterval(interval);
           return;
       }
       
       // Tính số giờ, phút và giây còn lại
-      let hours = Math.floor((distance / (1000 * 60 * 60)) % 24); 
-      let minutes = Math.floor((distance / (1000 * 60)) % 60); 
-      let seconds = Math.floor((distance / 1000) % 60); 
+      let h = Math.floor((distance / (1000 * 60 * 60)) % 24); 
+      let m = Math.floor((distance / (1000 * 60)) % 60); 
+      let s = Math.floor((distance / 1000) % 60); 
+      console.log(h + ":" + m + ":" + s);
+      
       
       // Cập nhật giờ, phút, giây trên giao diện người dùng
-      document.querySelector(".time-sell-h").innerHTML = hours.toString().padStart(2, '0'); 
-      document.querySelector(".time-sell-m").innerHTML = minutes.toString().padStart(2, '0'); 
-      document.querySelector(".time-sell-s").innerHTML = seconds.toString().padStart(2, '0'); 
+      document.querySelector(".time-sell-h").innerHTML = h.toString().padStart(2, '0'); 
+      document.querySelector(".time-sell-m").innerHTML = m.toString().padStart(2, '0'); 
+      document.querySelector(".time-sell-s").innerHTML = s.toString().padStart(2, '0'); 
   }
   
   // Gọi ngay một lần để cập nhật thời gian ban đầu
@@ -165,10 +162,6 @@ document.addEventListener("DOMContentLoaded", function () {
 function gotoIndexandSearch() {
   const input = document.getElementById("search-bar").value;
   sessionStorage.setItem("searchKeyword", input);
-
   window.location.href = "index.html";
-  const keyword = sessionStorage.getItem("searchKeyword");
-  console.log(keyword);
-  console.log("đã chuyển sang trang index.html");
 }
 

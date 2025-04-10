@@ -11,7 +11,7 @@
 
   function filterBooks($conn) {
       $genres = $_GET["genre"];
-      $price = floatval($_GET["price"]);
+      $price = $_GET["price"];
       $sortOption = $_GET["sortOption"];
 
       // Xử lý genres thành mảng 
@@ -19,7 +19,7 @@
       $genreCondition = "";
       // Xử lý điều kiện thể loại
       if (!empty($genreArray[0])) {// Nếu có ít nhất một thể loại được chọn
-          $genrePlaceholders = implode("','", $genreArray);// Chuyến từ ["Action", "Romance", "Comedy"] → "Action','Romance','Comedy"
+          $genrePlaceholders = implode("','", $genreArray);// Chuyến từ ["A", "B", "C"] → "A','B','C"
           $genreCondition = " AND g.genre_name IN ('$genrePlaceholders')";// Chuyển đổi thành điều kiện IN cho SQL
       }
 

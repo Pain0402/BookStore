@@ -60,7 +60,7 @@ async function displayBooks(page = 1, booksPerPage = 12) {
 displayBooks();
 
 // Hàm tìm kiếm sách
-async function searchBooks(page = 1, booksPerPage = 12) {
+async function searchBooks(page = 1, booksPerPage = 4) {
   const input = document.getElementById("search-bar").value;
 
   try {
@@ -72,17 +72,17 @@ async function searchBooks(page = 1, booksPerPage = 12) {
 
     const books = await response.json();
 
-    if (books.length === 0) {
-      alert("No books were found matching the entered keyword.");
-      return;
-    }
+    // if (books.length === 0) {
+    //   alert("No books were found matching the entered keyword.");
+    //   return;
+    // }
 
     createPagination(page, booksPerPage, books, searchBooks);
     
    
   } catch (error) {
     console.error("Lỗi khi tìm kiếm sách:", error);
-    alert("No books were found matching the entered keyword.");
+    alert("No books were found matching the entered keyword.2");
   }
 }
 
@@ -106,26 +106,26 @@ async function viewBook(bookId) {
     const modalTitle = document.getElementById("bookModalLabel");
     const modalBody = document.getElementById("bookModalBody");
 
-    modalTitle.innerText = bookDetails[0][0].title;
+    modalTitle.innerText = bookDetails[0].title;
     modalBody.innerHTML = `
       <div class="container my-5">
           <div class="row">
               <div class="col-md-4">
-                  <img src="${bookDetails[0][0].book_cover}" class="img-fluid rounded" alt="${bookDetails[0][0].title}">
+                  <img src="${bookDetails[0].book_cover}" class="img-fluid rounded" alt="${bookDetails[0].title}">
               </div>
               <div class="col-md-8">
-                  <h2 class="mb-3">${bookDetails[0][0].title}</h2>
-                  <h5 class="text-muted">${bookDetails[0][0].author}</h5>
+                  <h2 class="mb-3">${bookDetails[0].title}</h2>
+                  <h5 class="text-muted">${bookDetails[0].author}</h5>
                   <p class="mt-4">
-                      <strong>Genre:</strong> ${bookDetails[0][0].genre_name} <br>
+                      <strong>Genre:</strong> ${bookDetails[0].genre_name} <br>
                       <strong>Publisher:</strong> Publisher Name <br>
                       <strong>Publication Date:</strong> January 1, 2022 <br>
                       <strong>ISBN:</strong> 123-4567891234
                   </p>
                   <p class="mt-4">
-                      <strong>Description:</strong> ${bookDetails[0][0].description}
+                      <strong>Description:</strong> ${bookDetails[0].description}
                   </p>
-                  <p class="fs-4 fw-bold text-danger">${bookDetails[0][0].price}đ</p>
+                  <p class="fs-4 fw-bold text-danger">${bookDetails[0].price}đ</p>
                   <button class="btn btn-success button-main" onclick="addToCart(${bookId})">Add to Cart</button>
                   <button class="btn btn-warning button-main">Buy</button>
               </div>
@@ -144,10 +144,12 @@ async function viewBook(bookId) {
 
 // Hàm lọc sách
 async function filterBooks(page = 1, booksPerPage = 4) {
+  //Lấy giá trị các checkbox genre đã được check và gộp lại thành chuỗi để truyền cho backend xử lý
   const genres = Array.from(document.querySelectorAll('input[name="genre"]:checked'))
     .map(checkbox => checkbox.value)
     .join(',');
   
+  //Lấy giá trị checkbox price đã được check, nếu ko check thì mặc định là 0
   const price = document.querySelector('input[name="price"]:checked')?.value || 0;
   const sortOption = document.getElementById('price-sort').value;
 

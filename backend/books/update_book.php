@@ -11,7 +11,7 @@
     exit;
   }
 
-  // Gán các giá trị từ JSON, nếu không có thì dùng giá trị mặc định
+  // Gán các giá trị từ JSON, nếu không có thì dùng giá trị mặc định(sau dấu ??)
   $book_id = $data['book_id'] ?? '';            
   $title = $data['title'] ?? '';               
   $author = $data['author'] ?? '';             

@@ -4,7 +4,7 @@ include '../config/config.php';
 
 // Kiểm tra xem có tham số 'bookId' trong yêu cầu GET không
 if (isset($_GET['bookId'])) {
-    $bookId = $_GET['bookId']; // Lấy giá trị bookId từ request
+    $bookId = $_GET['bookId'];
 
     // Truy vấn để lấy thông tin chi tiết của sách, bao gồm cả thể loại (genre)
     $sql = "SELECT b.book_id AS bookId, b.title, b.author, b.description, b.price, b.book_cover,g.genre_name 
@@ -15,7 +15,7 @@ if (isset($_GET['bookId'])) {
 
     // Chuẩn bị truy vấn SQL để tránh SQL Injection
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $bookId); // "i" biểu thị kiểu dữ liệu là integer
+    $stmt->bind_param("i", $bookId);
     $stmt->execute();
     
     // Lấy kết quả truy vấn
@@ -29,7 +29,7 @@ if (isset($_GET['bookId'])) {
 
     // Kiểm tra xem có dữ liệu sách nào không
     if (!empty($bookDetails)) {
-        echo json_encode([$bookDetails]); 
+        echo json_encode($bookDetails); 
     } else {
         echo json_encode(["error" => "Book not found"]); // Không tìm thấy sách
     }
