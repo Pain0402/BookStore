@@ -17,10 +17,19 @@
       // Xử lý genres thành mảng 
       $genreArray = explode(",", $genres);
       $genreCondition = "";
-      // Xử lý điều kiện thể loại
-      if (!empty($genreArray[0])) {// Nếu có ít nhất một thể loại được chọn
-          $genrePlaceholders = implode("','", $genreArray);// Chuyến từ ["A", "B", "C"] → "A','B','C"
-          $genreCondition = " AND g.genre_name IN ('$genrePlaceholders')";// Chuyển đổi thành điều kiện IN cho SQL
+      
+      // Xử lý điều kiện thể loại - FIX SQL INJECTION
+      if (!empty($genreArray[0])) { // Nếu có ít nhất một thể loại được chọn
+          $cleanedGenres = [];
+          foreach ($genreArray as $g) {
+              // Escape từng giá trị để tránh SQL Injection
+              $cleanedGenres[] = $conn->real_escape_string(trim($g));
+          }
+          
+          if (!empty($cleanedGenres)) {
+            $genrePlaceholders = implode("','", $cleanedGenres); // Chuyến từ ["A", "B"] → "A','B"
+            $genreCondition = " AND g.genre_name IN ('$genrePlaceholders')"; // Chuyển đổi thành điều kiện IN
+          }
       }
 
       // Xử lý điều kiện giá
